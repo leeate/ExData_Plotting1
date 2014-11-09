@@ -1,7 +1,11 @@
 # Reading in the data
-initial <- read.csv("./household_power_consumption.txt", na.strings="?", 
+
+tmp <- tempfile()
+download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip", tmp)
+initial <- read.csv(unz(tmp, "household_power_consumption.txt"), na.strings="?", 
                     sep=";", header=TRUE, nrows=70000, 
                     colClasses=c("character","character","numeric","numeric","numeric","numeric","numeric","numeric","numeric"))
+
 
 # Making a subset with the desired dates, then converting date/time variables to 
 # R date format.
@@ -19,7 +23,7 @@ par(mfrow=c(2,2))
 
 # Part 1: Global Active Power over time (See Plot2)
 plot(cons$dateTime, cons$Global_active_power, xlab="", 
-     ylab="Global Active Power (kilowatts)", pch=-1)
+     ylab="Global Active Power", pch=-1)
 lines(cons$dateTime, cons$Global_active_power)
 
 
@@ -45,7 +49,9 @@ legend("topright",
 
 # Part 4: Global Reactive Power over time
 
-
+plot(cons$dateTime, cons$Global_reactive_power, xlab="datetime", 
+     ylab="Global_reactive_power", pch=-1)
+lines(cons$dateTime, cons$Global_reactive_power)
 
 # Finally, closing the graphics device.
 dev.off()
